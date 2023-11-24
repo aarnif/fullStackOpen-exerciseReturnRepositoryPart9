@@ -1,3 +1,8 @@
+interface targetAndHours {
+  target: number;
+  hours: number[];
+}
+
 interface Result {
   periodLength: number;
   trainingDays: number;
@@ -8,12 +13,32 @@ interface Result {
   average: number;
 }
 
-const exerciseCalculator = (hours: number[]): Result => {
+const parseArgumentsExerciseCalculator = (args: string[]): targetAndHours => {
+  const hours = [];
+
+  if (isNaN(Number(args[2]))) {
+    throw new Error("The provided target value was not a number!");
+  }
+
+  for (let i = 3; i < args.length; ++i) {
+    if (!isNaN(Number(args[i]))) {
+      hours.push(Number(args[i]));
+    } else {
+      throw new Error("All the provided hours were not numbers!");
+    }
+  }
+
+  return {
+    target: Number(args[2]),
+    hours: hours,
+  };
+};
+
+const exerciseCalculator = (target: number, hours: number[]): Result => {
   if (hours.length === 0) throw new Error("Hours array must not be empty!");
 
   const periodLength = hours.length;
   const trainingDays = hours.filter((hour) => hour > 0).length;
-  const target = 2;
   const sum = hours.reduce((hour, total) => total + hour, 0);
   const average = sum / periodLength;
   const success = target >= average;
@@ -50,4 +75,11 @@ const exerciseCalculator = (hours: number[]): Result => {
   };
 };
 
-console.log(exerciseCalculator([3, 0, 2, 4.5, 0, 3, 1]));
+try {
+  const { target, hours } = parseArgumentsExerciseCalculator(process.argv);
+  console.log(exerciseCalculator(target, hours));
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    throw new Error(error.message);
+  }
+}
