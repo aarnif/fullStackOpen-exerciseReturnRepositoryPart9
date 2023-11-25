@@ -13,7 +13,9 @@ interface Result {
   average: number;
 }
 
-const parseArgumentsExerciseCalculator = (args: string[]): targetAndHours => {
+export const parseArgumentsExerciseCalculator = (
+  args: string[]
+): targetAndHours => {
   const hours = [];
 
   if (isNaN(Number(args[2]))) {
@@ -34,7 +36,7 @@ const parseArgumentsExerciseCalculator = (args: string[]): targetAndHours => {
   };
 };
 
-const exerciseCalculator = (target: number, hours: number[]): Result => {
+export const exerciseCalculator = (target: number, hours: number[]): Result => {
   if (hours.length === 0) throw new Error("Hours array must not be empty!");
 
   const periodLength = hours.length;
@@ -75,11 +77,11 @@ const exerciseCalculator = (target: number, hours: number[]): Result => {
   };
 };
 
-try {
-  const { target, hours } = parseArgumentsExerciseCalculator(process.argv);
-  console.log(exerciseCalculator(target, hours));
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    throw new Error(error.message);
-  }
-}
+// try {
+//   const { target, hours } = parseArgumentsExerciseCalculator(process.argv);
+//   console.log(exerciseCalculator(target, hours));
+// } catch (error: unknown) {
+//   if (error instanceof Error) {
+//     throw new Error(error.message);
+//   }
+// }
