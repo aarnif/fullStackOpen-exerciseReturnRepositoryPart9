@@ -44,7 +44,7 @@ const exerciseCalculator = (target: number, hours: number[]): Result => {
   const success = target >= average;
   const difference = average - target;
 
-  let result = null;
+  let result = 0;
 
   const ratings = [
     { rating: 3, description: "Well done" },
