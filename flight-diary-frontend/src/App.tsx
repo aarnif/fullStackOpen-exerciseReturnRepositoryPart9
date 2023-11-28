@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { DiaryEntry } from "./types";
+import { DiaryEntry, NewDiaryEntry } from "./types";
 import DiaryService from "./services/diaries";
+import NewDiaryEntryForm from "./components/NewDiaryEntryForm";
 
 const App = () => {
   const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>([]);
@@ -10,8 +11,14 @@ const App = () => {
     DiaryService.getAll().then((data) => setDiaryEntries(data));
   }, []);
 
+  const onSubmit = (newDiaryEntry: NewDiaryEntry) => {
+    const addedDiaryEntry = DiaryService.addNew(newDiaryEntry);
+    addedDiaryEntry.then((data) => setDiaryEntries(diaryEntries.concat(data)));
+  };
+
   return (
     <div>
+      <NewDiaryEntryForm onSubmit={onSubmit} />
       <h1>{pageTitle}</h1>
       {diaryEntries.length > 0 &&
         diaryEntries.map((diaryEntry: DiaryEntry) => {
