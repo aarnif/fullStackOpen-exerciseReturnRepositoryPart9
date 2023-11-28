@@ -15,11 +15,20 @@ const addNew = async (object: NewDiaryEntry) => {
     visibility: object.visibility,
     comment: object.comment,
   };
-  const addedEntry = await axios.post<DiaryEntry[]>(
-    `${apiBaseUrl}/diaries`,
-    newDiaryEntry
-  );
-  return addedEntry.data;
+
+  try {
+    const addedEntry = await axios.post<DiaryEntry[]>(
+      `${apiBaseUrl}/diaries`,
+      newDiaryEntry
+    );
+    return addedEntry.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        throw new Error(error.response.data);
+      }
+    }
+  }
 };
 
 export default {

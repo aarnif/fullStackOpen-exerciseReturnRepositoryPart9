@@ -23,7 +23,6 @@ const NewDiaryEntryForm = ({ onSubmit }) => {
 
   return (
     <div>
-      <h1>Add new entry</h1>
       <form onSubmit={handleSubmit}>
         <div>
           date:{" "}
