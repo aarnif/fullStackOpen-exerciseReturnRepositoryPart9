@@ -15,7 +15,7 @@ const App = () => {
   const onSubmit = (newDiaryEntry: NewDiaryEntry) => {
     const addedDiaryEntry = DiaryService.addNew(newDiaryEntry);
     addedDiaryEntry
-      .then((data) => setDiaryEntries(diaryEntries.concat(data)))
+      .then((data) => setDiaryEntries(diaryEntries.concat(data || [])))
       .catch((error) => {
         setErrorMessage(error.message);
         setTimeout(() => {
