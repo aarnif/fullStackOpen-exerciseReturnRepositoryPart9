@@ -55,6 +55,7 @@ const newPatientEntry = (object: unknown): newPatient => {
       gender: parseGender(object.gender),
       ssn: parseString(object.ssn, "Incorrect or missing ssn"),
       dateOfBirth: parseDate(object.dateOfBirth),
+      entries: [],
     };
     return newEntry;
   }
