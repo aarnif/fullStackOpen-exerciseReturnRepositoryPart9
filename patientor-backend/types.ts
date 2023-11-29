@@ -15,7 +15,7 @@ export interface BaseEntry {
   date: string;
   specialist: string;
   description: string;
-  diagnosisCodes?: string[];
+  diagnosisCodes?: Array<Diagnosis["code"]>;
 }
 
 export enum HealthCheckRating {

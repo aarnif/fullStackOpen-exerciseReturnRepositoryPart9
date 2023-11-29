@@ -26,6 +26,19 @@ export const PatientPage = ({ patient }: Props) => {
       </h2>
       <div>ssn: {patient.ssn}</div>
       <div>occupation: {patient.occupation}</div>
+      <h2>entries</h2>
+      {patient.entries?.map((entry) => (
+        <div key={entry.date}>
+          <div>
+            {entry.date} <i>{entry.description}</i>
+          </div>
+          <ul>
+            {entry.diagnosisCodes?.map((code) => (
+              <li key={code}>{code}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </>
   );
 };
