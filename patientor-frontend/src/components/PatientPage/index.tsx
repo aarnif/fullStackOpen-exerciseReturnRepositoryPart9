@@ -1,6 +1,6 @@
 import { Female, Male, Transgender } from "@mui/icons-material";
 import { Patient } from "../../types";
-import EntryDetails from "./EntryDetails";
+import EntryDetails from "./EntryDetails/EntryDetails";
 
 interface Props {
   patientInfo: Patient;
