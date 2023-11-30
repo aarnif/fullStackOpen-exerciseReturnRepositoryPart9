@@ -4,27 +4,47 @@ import { Route, Link, Routes, useMatch } from "react-router-dom";
 import { Button, Divider, Container, Typography } from "@mui/material";
 
 import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { Patient, Diagnosis, Entry } from "./types";
 
 import patientService from "./services/patients";
+import diagnosisService from "./services/diagnoses";
 import PatientListPage from "./components/PatientListPage";
 import PatientPage from "./components/PatientPage";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
-
   useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
 
     const fetchPatientList = async () => {
       const patients = await patientService.getAll();
-      setPatients(patients);
+      const diagnoses = await diagnosisService.getAll();
+      const patientsWithDiagnosis: Patient[] = patients.map(
+        (patient: Patient) => {
+          return {
+            ...patient,
+            entries: patient.entries?.map((entry: Entry) => {
+              return {
+                ...entry,
+                diagnosisCodes: entry.diagnosisCodes?.map(
+                  (diagnosisCode: Diagnosis) =>
+                    diagnoses.find(
+                      (diagnosis: Diagnosis) =>
+                        diagnosis?.code === diagnosisCode
+                    )
+                ),
+              };
+            }),
+          };
+        }
+      );
+      setPatients(patientsWithDiagnosis);
     };
     void fetchPatientList();
   }, []);
 
   const match = useMatch("/patients/:id");
-  const patient = match
+  const patientInfo: Patient | null | undefined = match
     ? patients.find((patient) => patient.id === match.params.id)
     : null;
 
@@ -47,7 +67,7 @@ const App = () => {
           />
           <Route
             path="/patients/:id"
-            element={<PatientPage patient={patient} />}
+            element={patientInfo && <PatientPage patientInfo={patientInfo} />}
           />
         </Routes>
       </Container>

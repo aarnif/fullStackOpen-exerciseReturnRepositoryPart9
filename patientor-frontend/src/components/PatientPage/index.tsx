@@ -1,13 +1,14 @@
 import { Female, Male, Transgender } from "@mui/icons-material";
 import { Patient } from "../../types";
+import EntryDetails from "./EntryDetails";
 
 interface Props {
-  patient: Patient;
+  patientInfo: Patient;
 }
 
-export const PatientPage = ({ patient }: Props) => {
+export const PatientPage = ({ patientInfo }: Props) => {
   let genderIcon = null;
-  switch (patient.gender) {
+  switch (patientInfo.gender) {
     case "female":
       genderIcon = <Female />;
       break;
@@ -22,22 +23,13 @@ export const PatientPage = ({ patient }: Props) => {
   return (
     <>
       <h2>
-        {patient.name} {genderIcon}
+        {patientInfo.name} {genderIcon}
       </h2>
-      <div>ssn: {patient.ssn}</div>
-      <div>occupation: {patient.occupation}</div>
+      <div>ssn: {patientInfo.ssn}</div>
+      <div>occupation: {patientInfo.occupation}</div>
       <h2>entries</h2>
-      {patient.entries?.map((entry) => (
-        <div key={entry.date}>
-          <div>
-            {entry.date} <i>{entry.description}</i>
-          </div>
-          <ul>
-            {entry.diagnosisCodes?.map((code) => (
-              <li key={code}>{code}</li>
-            ))}
-          </ul>
-        </div>
+      {patientInfo.entries?.map((entry) => (
+        <EntryDetails key={entry.date} entry={entry} />
       ))}
     </>
   );
